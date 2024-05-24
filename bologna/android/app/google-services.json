@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "278708064985",
+    "project_id": "ndat-c378a",
+    "storage_bucket": "ndat-c378a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278708064985:android:2e411a6313068bcf6364c8",
+        "android_client_info": {
+          "package_name": "com.example.bologna"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVSVEUrFItoW_Hz9g61g1vu9IPo1V3-Rk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
