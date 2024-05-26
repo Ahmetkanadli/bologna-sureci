@@ -4,6 +4,7 @@ import 'package:bologna/common/entities/ogrenim_ciktisi.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Lesson {
+  String? docId;
   final String ders_adi;
   final String ders_kodu;
   final String ogretim_elemani;
@@ -15,6 +16,7 @@ class Lesson {
   final String? on_kosul;
 
   Lesson({
+    this.docId,
     required this.ders_adi,
     required this.ders_kodu,
     required this.ogretim_elemani,
@@ -42,6 +44,7 @@ class Lesson {
 
   factory Lesson.fromMap(Map<String, dynamic> map) {
     return Lesson(
+      docId: map['docId'] != null ? map['docId'] as String : null,
       ders_adi: map['ders_adi'] as String,
       ders_kodu: map['ders_kodu'] as String,
       ogretim_elemani: map['ogretim_elemani'] as String,
@@ -57,6 +60,7 @@ class Lesson {
   factory Lesson.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
     return Lesson(
+      docId: doc.id,
       ders_adi: data['ders_adi'],
       ders_kodu: data['ders_kodu'],
       ogretim_elemani: data['ogretim_elemani'],

@@ -1,3 +1,5 @@
+import 'package:bologna/bloc/program_cikti_control_bloc/program_cikti_bloc.dart';
+import 'package:bologna/bloc/program_tanim_control_bloc/program_tanim_bloc.dart';
 import 'package:bologna/common/values/colors.dart';
 import 'package:bologna/firebase_options.dart';
 import 'package:bologna/sign_in/bloc/singin_bloc.dart';
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => SignInBloc()),
+          BlocProvider(create: (context) => ProgramCiktiInBloc()),
+          BlocProvider(create: (context) => ProgramTanimInBloc()),
         ],
         child: ScreenUtilInit(
           builder: (context, child) => MaterialApp(

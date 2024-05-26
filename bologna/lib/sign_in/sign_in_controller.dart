@@ -53,6 +53,7 @@ class SingInController {
                 context.read<SignInBloc>().add(NameEvent(userData['name'] ?? ''));
                 context.read<SignInBloc>().add(SurnameEvent(userData['surname'] ?? ''));
                 context.read<SignInBloc>().add(RoleEvent(userData['role'] ?? ''));
+                context.read<SignInBloc>().add(GorevliOlduguFakulteEvent(userData['gorevli_oldugu_fakulte'] ?? ''));
 
                 // Update the state with the new user data
                 final updatedState = context.read<SignInBloc>().state;

@@ -1,5 +1,9 @@
+import 'package:bologna/bloc/program_tanim_control_bloc/program_tanim_bloc.dart';
+import 'package:bologna/bloc/program_tanim_control_bloc/program_tanim_event.dart';
+import 'package:bologna/bloc/program_tanim_control_bloc/program_tanim_state.dart';
 import 'package:bologna/common/entities/idareci.dart';
 import 'package:bologna/common/entities/lesson_entity.dart';
+import 'package:bologna/program_tanimi/program_tanimi.dart';
 import 'package:bologna/sign_in/bloc/sigin_states.dart';
 import 'package:bologna/sign_in/bloc/singin_bloc.dart';
 import 'package:bologna/view/dersler/dersler.dart';
@@ -20,7 +24,7 @@ class _IdareciHomeState extends State<IdareciHome> {
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
       return DefaultTabController(
-        length: 3,
+        length: 4,
         initialIndex: 0,
         child: Scaffold(
           appBar: AppBar(
@@ -32,6 +36,9 @@ class _IdareciHomeState extends State<IdareciHome> {
                 )),
             backgroundColor: Colors.blueAccent,
             title: Text("${state.name} ${state.surname}"),
+            actions: [
+
+            ],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(48.0),
               child: ClipPath(
@@ -41,6 +48,7 @@ class _IdareciHomeState extends State<IdareciHome> {
                   tabAlignment: TabAlignment.start,
                   physics: BouncingScrollPhysics(),
                   tabs: <Widget>[
+                    Tab(text: "Program Tanımı"),
                     Tab(text: "Program Çıktıları"),
                     Tab(text: "Öğretim Elemanları"),
                     Tab(text: "Dersler"),
@@ -50,13 +58,18 @@ class _IdareciHomeState extends State<IdareciHome> {
               ),
             ),
           ),
-          body: const TabBarView(
-            physics: BouncingScrollPhysics(),
-            children: [
-              ProgramCiktilariScreen(),
-              OgretimElemanlari(),
-              Dersler(),
-            ],
+          body: BlocBuilder<SignInBloc,SignInState>(
+            builder: (context,state) {
+              return  TabBarView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  ProgramTanimiWidget(),
+                  ProgramCiktilariScreen(fakulte_adi: state.gorevli_oldugu_fakulte,),
+                  const OgretimElemanlari(),
+                  const Dersler(),
+                ],
+              );
+            }
           ),
         ),
       );

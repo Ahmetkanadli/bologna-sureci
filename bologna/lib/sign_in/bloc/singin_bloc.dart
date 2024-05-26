@@ -3,12 +3,13 @@ import 'package:bologna/sign_in/bloc/signin_events.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  SignInBloc() : super(SignInState(role: '', name: '', surname: '', email: '', password: '')) {
+  SignInBloc() : super(SignInState(role: '', name: '', surname: '', email: '', password: '',gorevli_oldugu_fakulte: '')) {
     on<EmailEvent>(_emailEvent);
     on<PasswordEvent>(_passwordEvent);
     on<NameEvent>(_nameEvent);
     on<SurnameEvent>(_surnameEvent);
     on<RoleEvent>(_roleEvent);
+    on<GorevliOlduguFakulteEvent>(_gorevliOlduguFakulteEvent);
   }
 
   void _emailEvent(EmailEvent event, Emitter<SignInState> emit) {
@@ -29,5 +30,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   void _roleEvent(RoleEvent event, Emitter<SignInState> emit) {
     emit(state.copyWith(role: event.role));
+  }
+
+  void _gorevliOlduguFakulteEvent(GorevliOlduguFakulteEvent event, Emitter<SignInState> emit) {
+    emit(state.copyWith(gorevli_oldugu_fakulte: event.gorevli_oldugu_fakulte));
   }
 }

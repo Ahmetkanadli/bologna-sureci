@@ -38,6 +38,7 @@ class _DerslerState extends State<Dersler> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DersDetay(
+                                    docID : lesson.docId,
                                       ders_adi: lesson.ders_adi,
                                       ders_kodu: lesson.ders_kodu,
                                     ogretim_elemani: lesson.ogretim_elemani,

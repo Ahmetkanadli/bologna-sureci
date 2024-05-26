@@ -1,6 +1,7 @@
 import 'package:bologna/common/entities/fakulte.dart';
 import 'package:bologna/common/entities/lesson_entity.dart';
 import 'package:bologna/common/entities/program_ciktilari.dart';
+import 'package:bologna/common/entities/program_tanimi.dart';
 import 'package:bologna/common/entities/user_entity.dart';
 import 'package:bologna/common/toast/flutter_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,5 +47,16 @@ class UserService{
         .map((snapshot) =>
         snapshot.docs.map((doc) => ProgramCiktilari.fromSnapshot(doc)).toList());
   }
+
+  Stream<List<ProgramTanimi>> getProgramTanimi(String fakulteAdi) {
+    return FirebaseFirestore.instance
+        .collection('fakulte')
+        .doc(fakulteAdi)
+        .collection('program tanımı')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map((doc) => ProgramTanimi.fromSnapshot(doc)).toList());
+  }
+
 
 }
