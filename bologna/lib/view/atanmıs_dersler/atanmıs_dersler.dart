@@ -41,15 +41,18 @@ class _AtanmisDerslerState extends State<AtanmisDersler> {
                           var lesson = lessonList[index];
                           String name = "${state.name} ${state.surname}";
                           print(name);
+                          print("id ${lesson.docId}");
                           return lessonList[index].ogretim_elemani == name
                               ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               onTap: () {
+                                print("id ${lesson.docId}");
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => DersDetay(
+                                          docID: lesson.docId,
                                           ders_adi: lesson.ders_adi,
                                           ders_kodu: lesson.ders_kodu,
                                           ogretim_elemani: lesson.ogretim_elemani,

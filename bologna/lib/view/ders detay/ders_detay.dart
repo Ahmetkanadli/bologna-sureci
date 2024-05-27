@@ -78,205 +78,238 @@ class _DersDetayState extends State<DersDetay> {
             // Genel Bilgiler
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Dersin Kodu",
-                        style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.redAccent.withOpacity(0.9),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Dersin Kodu",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.redAccent.withOpacity(0.9),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      Text(
-                        widget.ders_kodu,
-                        style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black.withOpacity(0.9),
+                        const SizedBox(width: 20),
+                        Text(
+                          widget.ders_kodu,
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black.withOpacity(0.9),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Divider(),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text(
-                        "Öğretim Elemanı",
-                        style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.redAccent.withOpacity(0.9),
+                      ],
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text(
+                          "Öğretim Elemanı",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.redAccent.withOpacity(0.9),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      SizedBox(
-                        width: 180,
-                        height: 20,
-                        child: BlocBuilder<SignInBloc, SignInState>(
-                          builder: (context, state) {
-                            return state.role == 'idareci'
-                                ? StreamBuilder<List<User>>(
-                                    stream: UserService().getTeachers(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const CircularProgressIndicator();
-                                      }
+                        const SizedBox(width: 20),
+                        SizedBox(
+                          width: 180,
+                          height: 20,
+                          child: BlocBuilder<SignInBloc, SignInState>(
+                            builder: (context, state) {
+                              return state.role == 'idareci'
+                                  ? StreamBuilder<List<User>>(
+                                stream: UserService().getTeachers(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return const CircularProgressIndicator();
+                                  }
 
-                                      var teachers = snapshot.data!;
-                                      var selectedOgretimElemani =
-                                          widget.ogretim_elemani ?? '';
+                                  var teachers = snapshot.data!;
+                                  var selectedOgretimElemani =
+                                      widget.ogretim_elemani ?? '';
 
-                                      // Öğretim elemanını tam isimle karşılaştırma
-                                      if (selectedOgretimElemani.isNotEmpty &&
-                                          teachers.where((teacher) {
-                                            var fullName =
-                                                "${teacher.name} ${teacher.surname}";
-                                            return fullName ==
-                                                selectedOgretimElemani;
-                                          }).isEmpty) {
-                                        print(
-                                            "Seçilen öğretim elemanı listede yok, null yapılıyor");
-                                        selectedOgretimElemani = '';
-                                      }
+                                  // Öğretim elemanını tam isimle karşılaştırma
+                                  if (selectedOgretimElemani.isNotEmpty &&
+                                      teachers.where((teacher) {
+                                        var fullName =
+                                            "${teacher.name} ${teacher.surname}";
+                                        return fullName ==
+                                            selectedOgretimElemani;
+                                      }).isEmpty) {
+                                    print(
+                                        "Seçilen öğretim elemanı listede yok, null yapılıyor");
+                                    selectedOgretimElemani = '';
+                                  }
 
-                                      return DropdownButton<String>(
-                                        value: selectedOgretimElemani.isEmpty
-                                            ? null
-                                            : selectedOgretimElemani,
-                                        items: teachers.map((teacher) {
-                                          var fullName =
-                                              "${teacher.name} ${teacher.surname}";
-                                          return DropdownMenuItem<String>(
-                                            value: fullName,
-                                            child: Text(fullName),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widget.ogretim_elemani = value;
-                                            Idareci(
-                                                    name: state.name,
-                                                    surname: state.surname,
-                                                    email: state.surname,
-                                                    password: state.password,
-                                                    role: state.role)
-                                                .ogretmenAta(
-                                                    widget.docID, value!);
-                                          });
-                                        },
+                                  return DropdownButton<String>(
+                                    value: selectedOgretimElemani.isEmpty
+                                        ? null
+                                        : selectedOgretimElemani,
+                                    items: teachers.map((teacher) {
+                                      var fullName =
+                                          "${teacher.name} ${teacher.surname}";
+                                      return DropdownMenuItem<String>(
+                                        value: fullName,
+                                        child: Text(fullName),
                                       );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        widget.ogretim_elemani = value;
+                                        Idareci(
+                                            name: state.name,
+                                            surname: state.surname,
+                                            email: state.surname,
+                                            password: state.password,
+                                            role: state.role)
+                                            .ogretmenAta(
+                                            widget.docID, value!);
+                                      });
                                     },
-                                  )
-                                : Text(
-                                    widget.ogretim_elemani ?? '',
-                                    style: GoogleFonts.aBeeZee(
-                                      textStyle: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black.withOpacity(0.9),
-                                      ),
-                                    ),
                                   );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text(
-                        "AKTS",
-                        style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.redAccent.withOpacity(0.9),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Text(
-                        widget.akts.toString(),
-                        style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black.withOpacity(0.9),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text(
-                        "Kredi",
-                        style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.redAccent.withOpacity(0.9),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Text(
-                        widget.kredi.toString(),
-                        style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black.withOpacity(0.9),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(),
-                  const SizedBox(height: 10),
-                  widget.on_kosul != null
-                      ? Row(
-                          children: [
-                            Text(
-                              "Ön Koşul",
-                              style: GoogleFonts.aBeeZee(
-                                textStyle: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.redAccent.withOpacity(0.9),
+                                },
+                              )
+                                  : Text(
+                                widget.ogretim_elemani ?? '',
+                                style: GoogleFonts.aBeeZee(
+                                  textStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black.withOpacity(0.9),
+                                  ),
                                 ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text(
+                          "AKTS",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.redAccent.withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          widget.akts.toString(),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black.withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text(
+                          "Kredi",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.redAccent.withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          widget.kredi.toString(),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black.withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Text(
+                            "Ön Koşul",
+                            style: GoogleFonts.aBeeZee(
+                              textStyle: TextStyle(
+                                fontSize: 18,
+                                color: Colors.redAccent.withOpacity(0.9),
                               ),
                             ),
-                            const SizedBox(width: 20),
-                            Text(
-                              widget.on_kosul!,
-                              style: GoogleFonts.aBeeZee(
-                                textStyle: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black.withOpacity(0.9),
-                                ),
+                          ),
+                          const SizedBox(width: 20),
+                          Text(
+                            widget.on_kosul != null ? widget.on_kosul! : 'Yok',
+                            style: GoogleFonts.aBeeZee(
+                              textStyle: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black.withOpacity(0.9),
                               ),
                             ),
-                          ],
-                        )
-                      : const SizedBox(),
-
-                  /// TODO Mehmet matrisi yapacak
-                ],
+                          ),
+                        ],
+                      ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Kaynaklar",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.redAccent.withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ...widget.kaynaklar.map((kaynak) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                kaynak.kaynak_adi,
+                                style: GoogleFonts.aBeeZee(
+                                  textStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black.withOpacity(0.7),
+                                  ),
+                                ),
+                              ),
+                              const Divider(),
+                            ],
+                          );
+                        }).toList(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             // Genel Bilgileri burada Bitiyor
-            OgrenimCiktilari(widget.ogrenimCiktisi),
-            HaftalikIcerikler(widget.haftalik_icerik),
+            OgrenimCiktilari(widget.ogrenimCiktisi,widget.docID),
+            HaftalikIcerikler(widget.haftalik_icerik,widget.docID),
           ],
         ),
       ),
     );
   }
 }
+
