@@ -39,8 +39,8 @@ class _DerslerState extends State<Dersler> {
                               MaterialPageRoute(
                                   builder: (context) => DersDetay(
                                     docID : lesson.docId,
-                                      ders_adi: lesson.ders_adi,
-                                      ders_kodu: lesson.ders_kodu,
+                                    ders_adi: lesson.ders_adi,
+                                    ders_kodu: lesson.ders_kodu,
                                     ogretim_elemani: lesson.ogretim_elemani,
                                     akts: lesson.akts,
                                     kredi: lesson.kredi,
@@ -58,7 +58,7 @@ class _DerslerState extends State<Dersler> {
                                 borderRadius: BorderRadius.circular(20)),
                             child: ListTile(
                               title:
-                                  Text("${lesson.ders_kodu}  ${lesson.ders_adi}"),
+                              Text("${lesson.ders_kodu}  ${lesson.ders_adi}"),
                               subtitle: Text(lesson.ogretim_elemani),
                             ),
                           ),

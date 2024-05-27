@@ -6,7 +6,7 @@ import 'package:bologna/common/entities/lesson_entity.dart';
 import 'package:bologna/program_tanimi/program_tanimi.dart';
 import 'package:bologna/sign_in/bloc/sigin_states.dart';
 import 'package:bologna/sign_in/bloc/singin_bloc.dart';
-import 'package:bologna/view/dersler/dersler.dart';
+import 'package:bologna/view/dersler/ogretim_plani.dart';
 import 'package:bologna/view/ogretim_elemanlari/ogretim_elemanlari.dart';
 import 'package:bologna/view/program_ciktilari/program_ciktilari.dart';
 import 'package:flutter/material.dart';
@@ -50,9 +50,8 @@ class _IdareciHomeState extends State<IdareciHome> {
                   tabs: <Widget>[
                     Tab(text: "Program Tanımı"),
                     Tab(text: "Program Çıktıları"),
+                    Tab(text: "Progamın Öğretim Planı"),
                     Tab(text: "Öğretim Elemanları"),
-                    Tab(text: "Dersler"),
-
                   ],
                 ),
               ),
@@ -65,8 +64,9 @@ class _IdareciHomeState extends State<IdareciHome> {
                 children: [
                   ProgramTanimiWidget(),
                   ProgramCiktilariScreen(fakulte_adi: state.gorevli_oldugu_fakulte,),
+                  const OgretimPlani(),
                   const OgretimElemanlari(),
-                  const Dersler(),
+
                 ],
               );
             }

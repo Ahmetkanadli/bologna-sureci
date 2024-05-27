@@ -14,6 +14,8 @@ class Lesson {
   final List<OgrenimCiktisi> ogrenimCiktisi;
   final List<HaftalikIcerik> haftalik_icerik;
   final String? on_kosul;
+  final String verildigi_bolum;
+  final String verildigi_donem;
 
   Lesson({
     this.docId,
@@ -26,6 +28,8 @@ class Lesson {
     required this.ogrenimCiktisi,
     required this.haftalik_icerik,
     this.on_kosul,
+    required this.verildigi_bolum,
+    required this.verildigi_donem
   });
 
   Map<String, dynamic> toMap() {
@@ -39,6 +43,8 @@ class Lesson {
       'ogrenimCiktisi': ogrenimCiktisi.map((cikti) => cikti.toMap()).toList(),
       'haftalik_icerik': haftalik_icerik.map((icerik) => icerik.toMap()).toList(),
       'on_kosul': on_kosul,
+      'verildigi_bolum' :verildigi_bolum,
+      'verildigi_donem' : verildigi_donem
     };
   }
 
@@ -54,6 +60,8 @@ class Lesson {
       ogrenimCiktisi: (map['ogrenimCiktisi'] as List<dynamic>).map((item) => OgrenimCiktisi.fromMap(item as Map<String, dynamic>)).toList(),
       haftalik_icerik: (map['haftalik_icerik'] as List<dynamic>).map((item) => HaftalikIcerik.fromMap(item as Map<String, dynamic>)).toList(),
       on_kosul: map['on_kosul'] as String?,
+      verildigi_donem: map['verildigi_donem'] as String,
+      verildigi_bolum: map['verildigi_bolum'] as String,
     );
   }
 
@@ -70,6 +78,8 @@ class Lesson {
       ogrenimCiktisi: (data['ogrenimCiktisi'] as List<dynamic>).map((item) => OgrenimCiktisi.fromMap(item as Map<String, dynamic>)).toList(),
       haftalik_icerik: (data['haftalik_icerik'] as List<dynamic>).map((item) => HaftalikIcerik.fromMap(item as Map<String, dynamic>)).toList(),
       on_kosul: data['on_kosul'] as String?,
+      verildigi_donem: data['verildigi_donem'] as String,
+      verildigi_bolum: data['verildigi_bolum'] as String,
     );
   }
 }

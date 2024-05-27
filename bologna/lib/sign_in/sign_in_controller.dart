@@ -30,9 +30,19 @@ class SingInController {
         }
 
         try {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return Center(child: CircularProgressIndicator());
+            },
+          );
+
           final credential = await FirebaseAuth.instance
               .signInWithEmailAndPassword(
               email: emailAdress, password: password);
+
+          Navigator.pop(context);  // Close the progress indicator
 
           if (credential.user == null) {
             toastInfo(msg: "You don't exist");
@@ -48,6 +58,7 @@ class SingInController {
                   .collection('users')
                   .doc(user.uid)
                   .get();
+
               if (userDoc.exists) {
                 final userData = userDoc.data() as Map<String, dynamic>;
                 context.read<SignInBloc>().add(NameEvent(userData['name'] ?? ''));
@@ -57,20 +68,25 @@ class SingInController {
 
                 // Update the state with the new user data
                 final updatedState = context.read<SignInBloc>().state;
-                
+
                 // Debug print to check role
                 print("Role: ${userData['role']}");
 
                 // Navigate based on role
                 if (userData['role'].toString() == 'Öğretim elemanı') {
+                  /*
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => TeacherHome())
+                   */
                   Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: (context) => TeacherHome())
+                      context,
+                      MaterialPageRoute(builder: (context) => const TeacherHome())
                   );
                 } else if (userData['role'].toString() == 'idareci') {
                   Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: (context) => const IdareciHome())
+                      context,
+                      MaterialPageRoute(builder: (context) => const IdareciHome())
                   );
                 }
               } else {
@@ -86,6 +102,7 @@ class SingInController {
           }
 
         } on FirebaseAuthException catch (e) {
+          Navigator.pop(context);  // Close the progress indicator
           if (e.code == 'user-not-found') {
             toastInfo(msg: "No user found for that email");
           } else if (e.code == 'wrong-password') {
@@ -96,6 +113,7 @@ class SingInController {
         }
       }
     } catch (e) {
+      Navigator.pop(context);  // Close the progress indicator
       toastInfo(msg: "An error occurred: ${e.toString()}");
     }
   }
