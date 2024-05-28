@@ -10,16 +10,16 @@ import 'package:bologna/service/service.dart';
 import 'package:bologna/common/entities/program_ciktilari.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ProgramCiktilariScreen extends StatefulWidget {
-  const ProgramCiktilariScreen({super.key, required this.fakulte_adi});
+class AnonimProgramCiktilariScreen extends StatefulWidget {
+  const AnonimProgramCiktilariScreen({super.key, required this.fakulte_adi});
 
   final String fakulte_adi;
 
   @override
-  State<ProgramCiktilariScreen> createState() => _ProgramCiktilariScreenState();
+  State<AnonimProgramCiktilariScreen> createState() => _AnonimProgramCiktilariScreenState();
 }
 
-class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
+class _AnonimProgramCiktilariScreenState extends State<AnonimProgramCiktilariScreen> {
   List<int> ciktiIds = [];
 
   @override
@@ -80,15 +80,6 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
                             },
                             child: GestureDetector(
                               onTap: () {
-                                if (state.role == "idareci") {
-                                  _openDetay(
-                                    context,
-                                    state.gorevli_oldugu_fakulte,
-                                    ciktiList[index].id,
-                                    ciktiList[index].cikti_aciklama,
-                                    ciktiList[index].docId,
-                                  );
-                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -133,60 +124,7 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
           }
         },
       ),
-      floatingActionButton:
-          BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
-        return FloatingActionButton.extended(
-            elevation: 10,
-            backgroundColor: Colors.white,
-            onPressed: () {
-              _openDialog(context, state.gorevli_oldugu_fakulte, ciktiIds);
-            },
-            label: const Row(
-              children: [
-                Icon(CupertinoIcons.add_circled),
-                SizedBox(
-                  width: 5,
-                ),
-                Text("Program Çıktısı Ekle")
-              ],
-            ));
-      }),
-    );
-  }
 
-  void _openDialog(
-      BuildContext context, String fakulte_adi, List<int> ciktiIds) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15))),
-      builder: (context) => Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: AddProgramCikti(
-          fakulte_adi: fakulte_adi,
-          ciktiIds: ciktiIds,
-        ),
-      ),
-    );
-  }
-
-  void _openDetay(BuildContext context, String fakulte_adi, int cikti_id,
-      String cikti_aciklama, String? docID) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15))),
-      builder: (context) => Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: ProgramCiktiDetay(
-              fakulte_adi: fakulte_adi,
-              cikti_id: cikti_id,
-              cikti_aciklama: cikti_aciklama,
-              docID: docID)),
     );
   }
 }

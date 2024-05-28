@@ -32,7 +32,7 @@ class _OgretimElemanlariState extends State<OgretimElemanlari> {
                   child: ListView.builder(
                     itemCount: teacherList.length,
                     itemBuilder: (context, index) {
-                      return teacherList[index].role == "Öğretim elemanı" ?
+                      return
                            GestureDetector(
                         onTap: () {
 
@@ -44,15 +44,20 @@ class _OgretimElemanlariState extends State<OgretimElemanlari> {
                                 color: Colors.grey.shade300,
                                 borderRadius:
                                 BorderRadius.circular(20)),
-                            child: ListTile(
-                              title: Text(
-                                  "${teacherList[index].name}  ${teacherList[index].surname}"),
-                              subtitle: Text(
-                                  "${teacherList[index].email}  ${teacherList[index].role}"),
+                            child: Row(
+                              children: [
+
+                                ListTile(
+                                  title: Text(
+                                      "${teacherList[index].name}  ${teacherList[index].surname}"),
+                                  subtitle: Text(
+                                      "${teacherList[index].email}  ${teacherList[index].role}"),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ): const Center();
+                      );
 
                     },
                   ),

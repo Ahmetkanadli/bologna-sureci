@@ -1,4 +1,5 @@
 import 'package:bologna/common/entities/haftalik_icerik.dart';
+import 'package:bologna/common/entities/kaynaklar.dart';
 import 'package:bologna/common/entities/ogrenim_ciktisi.dart';
 import 'package:bologna/common/entities/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -96,6 +97,50 @@ class OgretimElemani extends User {
     }
   }
 
+  Future<void> ogrenimCiktisiSil(String? docID, int ciktiID) async {
+    if (docID == null) {
+      print("Document ID cannot be null");
+      throw ArgumentError("Document ID cannot be null");
+    }
+
+    try {
+      // 1. Mevcut ogrenimCiktisi listesini çek
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('dersler')
+          .doc(docID)
+          .get();
+
+      if (!snapshot.exists) {
+        throw Exception("Document does not exist");
+      }
+
+      List<dynamic> ogrenimCiktisiList = snapshot.data()?['ogrenimCiktisi'] ?? [];
+      List<OgrenimCiktisi> ogrenimCiktisi = ogrenimCiktisiList
+          .map((item) => OgrenimCiktisi.fromMap(item as Map<String, dynamic>))
+          .toList();
+
+      // 2. Silmek istediğin OgrenimCiktisi nesnesini bul ve listeden çıkar
+      int index =
+      ogrenimCiktisi.indexWhere((cikti) => cikti.cikti_no == ciktiID);
+
+      print("index $index");
+      if (index == -1) {
+        throw Exception("Ogrenim Ciktisi with ID $ciktiID not found");
+      }
+
+      ogrenimCiktisi.removeAt(index);
+
+      // 3. Güncellenmiş listeyi Firestore'a geri yükle
+      await FirebaseFirestore.instance.collection('dersler').doc(docID).update({
+        'ogrenimCiktisi': ogrenimCiktisi.map((cikti) => cikti.toMap()).toList(),
+      });
+    } catch (e) {
+      print("Güncelleme işlemi sırasında hata oluştu: $e");
+    }
+  }
+
+
   Future<void> haftalikIcerikGuncelle(
       String? docID, int haftaNo, String yeniIcerik) async {
     if (docID == null) {
@@ -137,10 +182,129 @@ class OgretimElemani extends User {
 
       // 3. Güncellenmiş listeyi Firestore'a geri yükle
       await FirebaseFirestore.instance.collection('dersler').doc(docID).update({
-        'haftalik_icerik': haftalikIcerik.map((icerik) => icerik.toMap()).toList(),
+        'haftalik_icerik':
+            haftalikIcerik.map((icerik) => icerik.toMap()).toList(),
       });
     } catch (e) {
       print("Güncelleme işlemi sırasında hata oluştu: $e");
     }
   }
+
+  Future<void> kaynakEkle(String? docID, int id,  String yeniKaynak) async {
+    if (docID == null) {
+      throw ArgumentError("Document ID cannot be null");
+    }
+
+    try {
+      // 1. Mevcut kaynaklar listesini çek
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('dersler')
+          .doc(docID)
+          .get();
+
+      if (!snapshot.exists) {
+        throw Exception("Document does not exist");
+      }
+
+      List<dynamic> kaynaklarList = snapshot.data()?['kaynaklar'] ?? [];
+      List<Kaynaklar> kaynaklar = kaynaklarList
+          .map((item) => Kaynaklar.fromMap(item as Map<String, dynamic>))
+          .toList();
+
+      // 2. Yeni Kaynaklar nesnesini listeye ekle
+      kaynaklar.add(Kaynaklar(kaynak_id: id, kaynak_adi: yeniKaynak));
+
+      // 3. Güncellenmiş listeyi Firestore'a geri yükle
+      await FirebaseFirestore.instance.collection('dersler').doc(docID).update({
+        'kaynaklar': kaynaklar.map((kaynak) => kaynak.toMap()).toList(),
+      });
+    } catch (e) {
+      print("Güncelleme işlemi sırasında hata oluştu: $e");
+    }
+  }
+
+  Future<void> kaynakGuncelle(
+      String? docID, int kaynakIndex, String yeniKaynak) async {
+
+    kaynakIndex = kaynakIndex-1;
+
+    if (docID == null) {
+      throw ArgumentError("Document ID cannot be null");
+    }
+
+    try {
+      // 1. Mevcut kaynaklar listesini çek
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('dersler')
+          .doc(docID)
+          .get();
+
+      if (!snapshot.exists) {
+        throw Exception("Document does not exist");
+      }
+
+      List<dynamic> kaynaklarList = snapshot.data()?['kaynaklar'] ?? [];
+      List<Kaynaklar> kaynaklar = kaynaklarList
+          .map((item) => Kaynaklar.fromMap(item as Map<String, dynamic>))
+          .toList();
+
+      // 2. Güncellemek istediğin Kaynaklar nesnesini bul ve değiştir
+      if (kaynakIndex < 0 || kaynakIndex >= kaynaklar.length) {
+        throw Exception("Invalid kaynakIndex");
+      }
+
+      kaynaklar[kaynakIndex] = Kaynaklar(
+          kaynak_id: kaynaklar[kaynakIndex].kaynak_id, kaynak_adi: yeniKaynak);
+
+      // 3. Güncellenmiş listeyi Firestore'a geri yükle
+      await FirebaseFirestore.instance.collection('dersler').doc(docID).update({
+        'kaynaklar': kaynaklar.map((kaynak) => kaynak.toMap()).toList(),
+      });
+    } catch (e) {
+      print("Güncelleme işlemi sırasında hata oluştu: $e");
+    }
+  }
+
+  Future<void> kaynakSil(String? docID, int kaynakIndex) async {
+    if (docID == null) {
+      throw ArgumentError("Document ID cannot be null");
+    }
+
+    try {
+      // 1. Mevcut kaynaklar listesini çek
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('dersler')
+          .doc(docID)
+          .get();
+
+      if (!snapshot.exists) {
+        throw Exception("Document does not exist");
+      }
+
+      List<dynamic> kaynaklarList = snapshot.data()?['kaynaklar'] ?? [];
+      List<Kaynaklar> kaynaklar = kaynaklarList
+          .map((item) => Kaynaklar.fromMap(item as Map<String, dynamic>))
+          .toList();
+
+      // 2. Belirtilen indeksteki Kaynaklar nesnesini listeden sil
+
+
+
+      int index = kaynaklar.indexWhere((element) => element.kaynak_id == kaynakIndex);
+
+      kaynaklar.removeAt(index);
+
+      // 3. Güncellenmiş listeyi Firestore'a geri yükle
+      await FirebaseFirestore.instance.collection('dersler').doc(docID).update({
+        'kaynaklar': kaynaklar.map((kaynak) => kaynak.toMap()).toList(),
+      });
+    } catch (e) {
+      print("Güncelleme işlemi sırasında hata oluştu: $e");
+    }
+  }
+
+
 }

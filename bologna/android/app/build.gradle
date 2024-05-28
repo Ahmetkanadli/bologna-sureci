@@ -27,7 +27,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.bologna"
-    compileSdk flutter.compileSdkVersion
+    compileSdk 32
     ndkVersion flutter.ndkVersion
 
     compileOptions {

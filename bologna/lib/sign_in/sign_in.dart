@@ -3,6 +3,8 @@ import 'package:bologna/sign_in/bloc/sigin_states.dart';
 import 'package:bologna/sign_in/bloc/signin_events.dart';
 import 'package:bologna/sign_in/bloc/singin_bloc.dart';
 import 'package:bologna/sign_in/sign_in_controller.dart';
+import 'package:bologna/view/home/anonim/anonim_home.dart';
+import 'package:bologna/view/home/anonim/anonim_kullanici_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +27,7 @@ class _SingInState extends State<SingIn> {
           color: Colors.white,
           child: SafeArea(
             child: Scaffold(
-              appBar: buildAppBar("Log In"),
+              appBar: buildAppBar("Hoş Geldiniz"),
               body: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +59,7 @@ class _SingInState extends State<SingIn> {
                       ),
                     ),
                     //forgotPassword(),
-                    buildLoginAndRegisterButton("Log in","login",
+                    buildLoginAndRegisterButton("Giriş Yap","login",
                         (){
                       print("name : ${context.read<SignInBloc>().state.name}");
                           SingInController(context:context).handleSignIn("email");
@@ -66,9 +68,9 @@ class _SingInState extends State<SingIn> {
                           }
                         }
                     ),
-                    buildLoginAndRegisterButton("Register","register",
+                    buildLoginAndRegisterButton("Anonim olarak devam et","register",
                         (){
-                          Navigator.of(context).pushNamed("register");
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const AnonimHome()));
                         }
 
                     )

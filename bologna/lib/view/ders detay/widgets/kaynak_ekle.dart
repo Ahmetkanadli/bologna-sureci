@@ -1,35 +1,27 @@
 import 'package:bologna/common/entities/ogretim_elemani.dart';
+import 'package:bologna/common/toast/flutter_toast.dart';
 import 'package:bologna/sign_in/bloc/sigin_states.dart';
 import 'package:bologna/sign_in/bloc/singin_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HaftalikIcerikGuncelle extends StatefulWidget {
-  HaftalikIcerikGuncelle({
+class KaynakEkle extends StatefulWidget {
+  KaynakEkle({
     super.key,
     required this.docID,
-    required this.icerik_id,
-    required this.icerik_aciklama,
+    required this.ids,
   });
 
   String? docID;
-  final int icerik_id;
-  final String icerik_aciklama;
+  final List<int> ids;
 
   @override
-  State<HaftalikIcerikGuncelle> createState() => _HaftalikIcerikGuncelleState();
+  State<KaynakEkle> createState() => _KaynakEkleState();
 }
 
-class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
+class _KaynakEkleState extends State<KaynakEkle> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _aciklamaController = TextEditingController();
-
-  @override
-  void initState() {
-      super.initState();
-    _idController.text = widget.icerik_id.toString();
-    _aciklamaController.text = widget.icerik_aciklama;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +38,7 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                 const SizedBox(
                     width: double.infinity,
                     child: Text(
-                      "Haftalık İçerik Bilgileri",
+                      "Kaynak Bilgileri Bilgileri",
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
@@ -56,7 +48,7 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                   height: 10,
                 ),
                 const Text(
-                  "  Çıktı Numarası",
+                  "  Kaynak Numarası",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 16,
@@ -74,13 +66,13 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                   child: TextField(
                     style: TextStyle(),
                     controller: _idController,
-                    readOnly: true,
+                    readOnly: false,
                     autofocus: true,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
-                        hintText: 'Çıktı ID'),
+                        hintText: 'Kaynak ID'),
                     maxLines: 1,
                   ),
                 ),
@@ -88,7 +80,7 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                   height: 10,
                 ),
                 const Text(
-                  "  Açıklama",
+                  "  Kaynak",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 16,
@@ -110,7 +102,7 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                     decoration: const InputDecoration(
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
-                      hintText: 'Açıklama Ekle',
+                      hintText: 'Kaynak Ekle',
                     ),
                     maxLines: 15,
                     onChanged: (value) {
@@ -133,16 +125,32 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                                 borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.symmetric(vertical: 15)),
                         onPressed: () {
+                          if (_idController.text.isEmpty) {
+                            toastInfo(msg: "ID alanı boş olamaz");
+                            return;
+                          } else if (_aciklamaController.text.isEmpty) {
+                            toastInfo(msg: "Açıklama alanı boş olamaz");
+                            return;
+                          }
+
+                          int ciktiID = int.parse(_idController.text);
+
+                          if (widget.ids.contains(ciktiID)) {
+                            toastInfo(msg: 'Bu ID\'ye ait bir çıktı zaten var');
+                            return;
+                          }
+
                           OgretimElemani(
                                   name: state.name,
                                   surname: state.surname,
                                   email: state.email,
                                   password: state.password,
                                   role: state.role)
-                              .haftalikIcerikGuncelle(
+                              .kaynakEkle(
                                   widget.docID,
                                   int.parse(_idController.text),
                                   _aciklamaController.text);
+                          Navigator.pop(context);
                         },
                         child: const Text("Kaydet")),
                     const SizedBox(

@@ -7,13 +7,15 @@ class User{
   final String? email;
   final String? password;
   final String? role;
+  String? gorevli_oldugu_fakulte;
 
   User({
     required this.name,
     required this.surname,
     required this.email,
     required this.password,
-    required this.role
+    required this.role,
+    this.gorevli_oldugu_fakulte
   });
 
   Map<String, dynamic> toMap() {
@@ -23,7 +25,8 @@ class User{
       'surname': surname,
       'email': email,
       'password': password,
-      'role' : role
+      'role' : role,
+      'gorevli_oldugu_fakulte' : gorevli_oldugu_fakulte
     };
   }
 
@@ -34,7 +37,8 @@ class User{
       surname: map['surname'] as String,
       email: map['email'] as String,
       password: map['password'] != null ? map['password'] as String : null,
-      role: map['role'] as String
+      role: map['role'] as String,
+        gorevli_oldugu_fakulte: map['gorevli_oldugu_fakulte'] as String
     );
   }
 
@@ -45,7 +49,8 @@ class User{
       surname: doc['surname'],
       email: doc['email'],
       password: doc['password'] ?? '',
-       role: doc['role']
+       role: doc['role'],
+        gorevli_oldugu_fakulte : doc['gorevli_oldugu_fakulte']
     );
   }
 }

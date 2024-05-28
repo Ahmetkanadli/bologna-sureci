@@ -4,31 +4,31 @@ import 'package:bologna/sign_in/bloc/singin_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HaftalikIcerikGuncelle extends StatefulWidget {
-  HaftalikIcerikGuncelle({
+class KaynakGuncelle extends StatefulWidget {
+  KaynakGuncelle({
     super.key,
     required this.docID,
-    required this.icerik_id,
-    required this.icerik_aciklama,
+    required this.kaynak_id,
+    required this.kaynak_adi,
   });
 
   String? docID;
-  final int icerik_id;
-  final String icerik_aciklama;
+  final int kaynak_id;
+  final String kaynak_adi;
 
   @override
-  State<HaftalikIcerikGuncelle> createState() => _HaftalikIcerikGuncelleState();
+  State<KaynakGuncelle> createState() => _KaynakGuncelleState();
 }
 
-class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
+class _KaynakGuncelleState extends State<KaynakGuncelle> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _aciklamaController = TextEditingController();
 
   @override
   void initState() {
-      super.initState();
-    _idController.text = widget.icerik_id.toString();
-    _aciklamaController.text = widget.icerik_aciklama;
+    super.initState();
+    _idController.text = widget.kaynak_id.toString();
+    _aciklamaController.text = widget.kaynak_adi;
   }
 
   @override
@@ -36,7 +36,10 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
       return SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.9,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height * 0.5,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -46,49 +49,18 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                 const SizedBox(
                     width: double.infinity,
                     child: Text(
-                      "Haftalık İçerik Bilgileri",
+                      "Kaynak Bilgileri Bilgileri",
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     )),
                 Divider(thickness: 1.1, color: Colors.grey.shade200),
+
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
-                  "  Çıktı Numarası",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(25)),
-                  child: TextField(
-                    style: TextStyle(),
-                    controller: _idController,
-                    readOnly: true,
-                    autofocus: true,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintText: 'Çıktı ID'),
-                    maxLines: 1,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  "  Açıklama",
+                  "  Kayynak Adı",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 16,
@@ -112,7 +84,7 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                       focusedBorder: InputBorder.none,
                       hintText: 'Açıklama Ekle',
                     ),
-                    maxLines: 15,
+                    maxLines: 1,
                     onChanged: (value) {
                       // Burada sadece yeni değeri alıyoruz
                       // _aciklamaController.text = value; bu satıra gerek yok
@@ -134,15 +106,15 @@ class _HaftalikIcerikGuncelleState extends State<HaftalikIcerikGuncelle> {
                             padding: const EdgeInsets.symmetric(vertical: 15)),
                         onPressed: () {
                           OgretimElemani(
-                                  name: state.name,
-                                  surname: state.surname,
-                                  email: state.email,
-                                  password: state.password,
-                                  role: state.role)
-                              .haftalikIcerikGuncelle(
-                                  widget.docID,
-                                  int.parse(_idController.text),
-                                  _aciklamaController.text);
+                              name: state.name,
+                              surname: state.surname,
+                              email: state.email,
+                              password: state.password,
+                              role: state.role)
+                              .kaynakGuncelle(
+                              widget.docID, int.parse( _idController.text),
+                              _aciklamaController.text);
+                          Navigator.pop(context);
                         },
                         child: const Text("Kaydet")),
                     const SizedBox(

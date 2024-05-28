@@ -1,26 +1,29 @@
-import 'package:bologna/bloc/program_tanim_control_bloc/program_tanim_bloc.dart';
-import 'package:bologna/bloc/program_tanim_control_bloc/program_tanim_event.dart';
-import 'package:bologna/bloc/program_tanim_control_bloc/program_tanim_state.dart';
-import 'package:bologna/common/entities/idareci.dart';
-import 'package:bologna/common/entities/lesson_entity.dart';
-import 'package:bologna/program_tanimi/program_tanimi.dart';
+import 'package:bologna/common/entities/program_tanimi.dart';
+
 import 'package:bologna/sign_in/bloc/sigin_states.dart';
 import 'package:bologna/sign_in/bloc/singin_bloc.dart';
 import 'package:bologna/view/dersler/ogretim_plani.dart';
+import 'package:bologna/view/home/anonim/ogretim_elemanlari/ogretim_elemanlari.dart';
+import 'package:bologna/view/home/anonim/ogretim_plani/ogretim_plani.dart';
+import 'package:bologna/view/home/anonim/program_ciktilari/program_ciktilari.dart';
+import 'package:bologna/view/home/anonim/program_tanimi/program_tanimi.dart';
+import 'package:bologna/view/home/idareci_home.dart';
 import 'package:bologna/view/ogretim_elemanlari/ogretim_elemanlari.dart';
 import 'package:bologna/view/program_ciktilari/program_ciktilari.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class IdareciHome extends StatefulWidget {
-  const IdareciHome({super.key});
+class MainAnonimHome extends StatefulWidget {
+  const MainAnonimHome({super.key, required this.fakulte});
+
+  final String fakulte;
 
   @override
-  State<IdareciHome> createState() => _IdareciHomeState();
+  State<MainAnonimHome> createState() => _MainAnonimHomeState();
 }
 
-class _IdareciHomeState extends State<IdareciHome> {
+class _MainAnonimHomeState extends State<MainAnonimHome> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
@@ -33,14 +36,15 @@ class _IdareciHomeState extends State<IdareciHome> {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20)
+                    bottomRight: Radius.circular(20)
                 )),
             backgroundColor: Colors.blueAccent,
-            title: Text("${state.name} ${state.surname}",
+            title: Text(
+              widget.fakulte,
               style: GoogleFonts.aBeeZee(
-                  textStyle : const TextStyle(
-                      color: Colors.white
-                  )
+                textStyle : const TextStyle(
+                  color: Colors.white
+                )
               ),
             ),
             actions: [
@@ -65,40 +69,20 @@ class _IdareciHomeState extends State<IdareciHome> {
             ),
           ),
           body: BlocBuilder<SignInBloc,SignInState>(
-            builder: (context,state) {
-              return  TabBarView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  ProgramTanimiWidget(),
-                  ProgramCiktilariScreen(fakulte_adi: state.gorevli_oldugu_fakulte,),
-                  const OgretimPlani(),
-                  const OgretimElemanlari(),
-
-                ],
-              );
-            }
+              builder: (context,state) {
+                return  TabBarView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    ProgramTanimiWidget(fakulte: widget.fakulte,),
+                    AnonimProgramCiktilariScreen(fakulte_adi: widget.fakulte),
+                    AnonimOgretimPlani(fakulte_adi: widget.fakulte),
+                    AnonimOgretimElemanlari(fakulte_adi: widget.fakulte),
+                  ],
+                );
+              }
           ),
         ),
       );
     });
-  }
-}
-
-class CustomTabBarClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height - 120);
-    path.quadraticBezierTo(0, size.height, 20, size.height);
-    path.lineTo(size.width - 10, size.height);
-    path.quadraticBezierTo(size.width, size.height, size.width, size.height - 10);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
   }
 }

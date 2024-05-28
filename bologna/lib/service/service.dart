@@ -58,5 +58,14 @@ class UserService{
         snapshot.docs.map((doc) => ProgramTanimi.fromSnapshot(doc)).toList());
   }
 
+  Stream<List<Fakulte>> getFakulte() {
+    return FirebaseFirestore.instance
+        .collection('fakulte')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map((doc) => Fakulte.fromSnapshot(doc)).toList());
+  }
+
+
 
 }

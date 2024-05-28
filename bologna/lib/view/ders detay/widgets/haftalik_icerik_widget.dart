@@ -20,7 +20,10 @@ Widget HaftalikIcerikler(List<HaftalikIcerik> haftalik_icerik,String? docID){
             children: [
               GestureDetector(
                 onTap: (){
-                  _openDetay(context, state.gorevli_oldugu_fakulte, icerik.hafta_no, icerik.icerik_aciklamasi, docID);
+                  if(state.role == 'Öğretim elemanı'){
+                    _openDetay(context, state.gorevli_oldugu_fakulte, icerik.hafta_no, icerik.icerik_aciklamasi, docID);
+                  }
+
                 },
                 child: ListTile(
                   title: Text(
