@@ -61,6 +61,7 @@ class _AtanmisDerslerState extends State<AtanmisDersler> {
                                           kaynaklar: lesson.kaynaklar,
                                           ogrenimCiktisi: lesson.ogrenimCiktisi,
                                           haftalik_icerik: lesson.haftalik_icerik,
+                                            ilisikili_oldugu_program_ciktilari: lesson.ilisikili_oldugu_program_ciktilari
 
                                         )));
                               },

@@ -34,6 +34,7 @@ class _DerslerState extends State<Dersler> {
                       var lesson = lessonList[index];
                       return GestureDetector(
                         onTap: () {
+                          print(lesson.ilisikili_oldugu_program_ciktilari);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -47,6 +48,7 @@ class _DerslerState extends State<Dersler> {
                                     kaynaklar: lesson.kaynaklar,
                                     ogrenimCiktisi: lesson.ogrenimCiktisi,
                                     haftalik_icerik: lesson.haftalik_icerik,
+                                      ilisikili_oldugu_program_ciktilari: lesson.ilisikili_oldugu_program_ciktilari
 
                                   )));
                         },

@@ -5,7 +5,11 @@ import 'package:bologna/common/entities/idareci.dart';
 import 'package:bologna/common/entities/lesson_entity.dart';
 import 'package:bologna/program_tanimi/program_tanimi.dart';
 import 'package:bologna/sign_in/bloc/sigin_states.dart';
+import 'package:bologna/sign_in/bloc/signin_events.dart';
+
+
 import 'package:bologna/sign_in/bloc/singin_bloc.dart';
+import 'package:bologna/sign_in/sign_in.dart';
 import 'package:bologna/view/dersler/ogretim_plani.dart';
 import 'package:bologna/view/ogretim_elemanlari/ogretim_elemanlari.dart';
 import 'package:bologna/view/program_ciktilari/program_ciktilari.dart';
@@ -44,7 +48,19 @@ class _IdareciHomeState extends State<IdareciHome> {
               ),
             ),
             actions: [
+              IconButton(
+                  onPressed: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SingIn()));
+                    context.read<SignInBloc>().add(const EmailEvent(''));
+                    context.read<SignInBloc>().add(const PasswordEvent(''));
+                    context.read<SignInBloc>().add(const NameEvent(''));
+                    context.read<SignInBloc>().add(const SurnameEvent(''));
+                    context.read<SignInBloc>().add(const RoleEvent(''));
+                    context.read<SignInBloc>().add(const GorevliOlduguFakulteEvent(''));
 
+                  },
+                  icon: const Icon(Icons.logout)
+              )
             ],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(48.0),

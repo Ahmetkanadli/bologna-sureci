@@ -79,14 +79,14 @@ class SingInController {
                       context,
                       MaterialPageRoute(builder: (context) => TeacherHome())
                    */
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const TeacherHome())
+                      MaterialPageRoute(builder: (context) => TeacherHome())
                   );
                 } else if (userData['role'].toString() == 'idareci') {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const IdareciHome())
+                      MaterialPageRoute(builder: (context) => IdareciHome())
                   );
                 }
               } else {

@@ -16,6 +16,7 @@ class Lesson {
   final String? on_kosul;
   final String verildigi_bolum;
   final String verildigi_donem;
+  final List<int> ilisikili_oldugu_program_ciktilari;
 
   Lesson({
     this.docId,
@@ -29,7 +30,8 @@ class Lesson {
     required this.haftalik_icerik,
     this.on_kosul,
     required this.verildigi_bolum,
-    required this.verildigi_donem
+    required this.verildigi_donem,
+    required this.ilisikili_oldugu_program_ciktilari,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,7 +46,8 @@ class Lesson {
       'haftalik_icerik': haftalik_icerik.map((icerik) => icerik.toMap()).toList(),
       'on_kosul': on_kosul,
       'verildigi_bolum' :verildigi_bolum,
-      'verildigi_donem' : verildigi_donem
+      'verildigi_donem' : verildigi_donem,
+      'ilisikili_oldugu_program_ciktilari' : ilisikili_oldugu_program_ciktilari,
     };
   }
 
@@ -62,6 +65,9 @@ class Lesson {
       on_kosul: map['on_kosul'] as String?,
       verildigi_donem: map['verildigi_donem'] as String,
       verildigi_bolum: map['verildigi_bolum'] as String,
+      ilisikili_oldugu_program_ciktilari: map['ilisikili_oldugu_program_ciktilari'] != null
+          ? (map['ilisikili_oldugu_program_ciktilari'] as List<dynamic>).map((item) => item as int).toList()
+          : [],
     );
   }
 
@@ -80,6 +86,9 @@ class Lesson {
       on_kosul: data['on_kosul'] as String?,
       verildigi_donem: data['verildigi_donem'] as String,
       verildigi_bolum: data['verildigi_bolum'] as String,
+      ilisikili_oldugu_program_ciktilari: data['ilisikili_oldugu_program_ciktilari'] != null
+          ? (data['ilisikili_oldugu_program_ciktilari'] as List<dynamic>).map((item) => item as int).toList()
+          : [],
     );
   }
 }

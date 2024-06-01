@@ -138,6 +138,7 @@ class _AnonimOgretimPlaniState extends State<AnonimOgretimPlani> {
                   kaynaklar: lesson.kaynaklar,
                   ogrenimCiktisi: lesson.ogrenimCiktisi,
                   haftalik_icerik: lesson.haftalik_icerik,
+                    ilisikili_oldugu_program_ciktilari : lesson.ilisikili_oldugu_program_ciktilari
                 ),
               ),
             );
