@@ -17,7 +17,7 @@ class SingInController {
     try {
       if (type == "email") {
         final state = context.read<SignInBloc>().state;
-        String emailAdress = state.email;
+        String emailAdress = '${state.email}@gmail.com';
         String password = state.password;
 
         if (emailAdress.isEmpty) {

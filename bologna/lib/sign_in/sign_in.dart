@@ -40,10 +40,10 @@ class _SingInState extends State<SingIn> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText("Email"),
+                          reusableText("TC"),
                           SizedBox(height: 5.h,),
                           //hinText , textType , iconName
-                          buildTexField("Email adresinizi girin", "email","user",
+                          buildTexField("TC No girin", "email","user",
                               (value){
                                 context.read<SignInBloc>().add(EmailEvent(value));
                               }

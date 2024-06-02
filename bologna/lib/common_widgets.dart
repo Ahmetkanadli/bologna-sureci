@@ -165,7 +165,7 @@ Widget buildTexField(String hinText, String textType, String iconName,
                   fontSize: 14.sp
               ),
               autocorrect: false,
-              obscureText: textType=="password" ? true : false,
+              obscureText: textType=="password" ? true : true,
             ),
           )
         ],
