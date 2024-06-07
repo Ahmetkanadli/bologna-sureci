@@ -306,5 +306,81 @@ class OgretimElemani extends User {
     }
   }
 
+  Future<void> haftalikIcerikEkle(String? docID, int id, String yeniHaftalikIcerik) async {
+    if (docID == null) {
+      throw ArgumentError("Document ID cannot be null");
+    }
+
+    try {
+      // 1. Mevcut haftalık içerik listesini çek
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('dersler')
+          .doc(docID)
+          .get();
+
+      if (!snapshot.exists) {
+        throw Exception("Document does not exist");
+      }
+
+      List<dynamic> haftalikIcerikList = snapshot.data()?['haftalik_icerik'] ?? [];
+      List<HaftalikIcerik> haftalikIcerik = haftalikIcerikList
+          .map((item) => HaftalikIcerik.fromMap(item as Map<String, dynamic>))
+          .toList();
+
+      // 2. Yeni HaftalikIcerik nesnesini listeye ekle
+      haftalikIcerik.add(HaftalikIcerik(hafta_no: id, icerik_aciklamasi: yeniHaftalikIcerik));
+
+      // 3. Güncellenmiş listeyi Firestore'a geri yükle
+      await FirebaseFirestore.instance.collection('dersler').doc(docID).update({
+        'haftalik_icerik': haftalikIcerik.map((icerik) => icerik.toMap()).toList(),
+      });
+    } catch (e) {
+      print("Güncelleme işlemi sırasında hata oluştu: $e");
+    }
+  }
+
+
+  Future<void> haftalikIcerikSil(String? docID, int icerikIndex) async {
+    if (docID == null) {
+      throw ArgumentError("Document ID cannot be null");
+    }
+
+    try {
+      // 1. Mevcut haftalık içerik listesini çek
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('dersler')
+          .doc(docID)
+          .get();
+
+      if (!snapshot.exists) {
+        throw Exception("Document does not exist");
+      }
+
+      List<dynamic> haftalikIcerikList = snapshot.data()?['haftalik_icerik'] ?? [];
+      List<HaftalikIcerik> haftalikIcerik = haftalikIcerikList
+          .map((item) => HaftalikIcerik.fromMap(item as Map<String, dynamic>))
+          .toList();
+
+      // 2. Belirtilen indeksteki HaftalikIcerik nesnesini listeden sil
+      int index = haftalikIcerik.indexWhere((element) => element.hafta_no == icerikIndex);
+
+      if (index != -1) {
+        haftalikIcerik.removeAt(index);
+      } else {
+        throw Exception("Index does not exist in the list");
+      }
+
+      // 3. Güncellenmiş listeyi Firestore'a geri yükle
+      await FirebaseFirestore.instance.collection('dersler').doc(docID).update({
+        'haftalik_icerik': haftalikIcerik.map((icerik) => icerik.toMap()).toList(),
+      });
+    } catch (e) {
+      print("Güncelleme işlemi sırasında hata oluştu: $e");
+    }
+  }
+
+
 
 }

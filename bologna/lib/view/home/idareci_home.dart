@@ -73,7 +73,7 @@ class _IdareciHomeState extends State<IdareciHome> {
                   tabs: <Widget>[
                     Tab(text: "Program Tanımı"),
                     Tab(text: "Program Çıktıları"),
-                    Tab(text: "Progamın Öğretim Planı"),
+                    Tab(text: "Programın Öğretim Planı"),
                     Tab(text: "Akademik Kadro"),
                   ],
                 ),
@@ -85,7 +85,7 @@ class _IdareciHomeState extends State<IdareciHome> {
               return  TabBarView(
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  ProgramTanimiWidget(),
+                  const ProgramTanimiWidget(),
                   ProgramCiktilariScreen(fakulte_adi: state.gorevli_oldugu_fakulte,),
                   const OgretimPlani(),
                   const OgretimElemanlari(),

@@ -45,6 +45,7 @@ dependencies:
   firebase_core: ^2.31.0
   equatable:
   google_fonts:
+  liquid_pull_to_refresh: ^3.0.1
 
 dev_dependencies:
   flutter_test:

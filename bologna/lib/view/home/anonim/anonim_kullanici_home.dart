@@ -61,7 +61,7 @@ class _MainAnonimHomeState extends State<MainAnonimHome> {
                   tabs: <Widget>[
                     Tab(text: "Program Tanımı"),
                     Tab(text: "Program Çıktıları"),
-                    Tab(text: "Progamın Öğretim Planı"),
+                    Tab(text: "Programın Öğretim Planı"),
                     Tab(text: "Akademik Kadro"),
                   ],
                 ),

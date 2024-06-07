@@ -73,8 +73,6 @@ class _AtanmisDerslerState extends State<AtanmisDersler> {
                                 child: ListTile(
                                   title: Text(
                                       "${lesson.ders_kodu}  ${lesson.ders_adi}"),
-                                  subtitle: const Text(
-                                      "Ders Açıklması max 1 satır olarak getirelecek"),
                                 ),
                               ),
                             ),

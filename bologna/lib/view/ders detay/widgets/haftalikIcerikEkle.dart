@@ -5,8 +5,8 @@ import 'package:bologna/sign_in/bloc/singin_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class KaynakEkle extends StatefulWidget {
-  KaynakEkle({
+class HaftalikIcrerikEkle extends StatefulWidget {
+  HaftalikIcrerikEkle({
     super.key,
     required this.docID,
     required this.ids,
@@ -16,10 +16,10 @@ class KaynakEkle extends StatefulWidget {
   final List<int> ids;
 
   @override
-  State<KaynakEkle> createState() => _KaynakEkleState();
+  State<HaftalikIcrerikEkle> createState() => _HaftalikIcrerikEkleState();
 }
 
-class _KaynakEkleState extends State<KaynakEkle> {
+class _HaftalikIcrerikEkleState extends State<HaftalikIcrerikEkle> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _aciklamaController = TextEditingController();
 
@@ -38,17 +38,17 @@ class _KaynakEkleState extends State<KaynakEkle> {
                 const SizedBox(
                     width: double.infinity,
                     child: Text(
-                      "Kaynak Bilgileri Bilgileri",
+                      "Haftalık Icerik Bilgileri",
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     )),
                 Divider(thickness: 1.1, color: Colors.grey.shade200),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
-                  "  Kaynak Numarası",
+                  "  Hafta Numarası",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 16,
@@ -72,7 +72,7 @@ class _KaynakEkleState extends State<KaynakEkle> {
                     decoration: const InputDecoration(
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
-                        hintText: 'Kaynak ID'),
+                        hintText: 'Hafta No'),
                     maxLines: 1,
                   ),
                 ),
@@ -80,7 +80,7 @@ class _KaynakEkleState extends State<KaynakEkle> {
                   height: 10,
                 ),
                 const Text(
-                  "  Kaynak",
+                  "  Aciklama",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 16,
@@ -102,7 +102,7 @@ class _KaynakEkleState extends State<KaynakEkle> {
                     decoration: const InputDecoration(
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
-                      hintText: 'Kaynak Ekle',
+                      hintText: 'Aciklama Ekle',
                     ),
                     maxLines: 15,
                     onChanged: (value) {
@@ -135,23 +135,18 @@ class _KaynakEkleState extends State<KaynakEkle> {
 
                           int ciktiID = int.parse(_idController.text);
 
-
-
                           if (widget.ids.contains(ciktiID)) {
                             toastInfo(msg: 'Bu ID\'ye ait bir çıktı zaten var');
                             return;
                           }
 
                           OgretimElemani(
-                                  name: state.name,
-                                  surname: state.surname,
-                                  email: state.email,
-                                  password: state.password,
-                                  role: state.role)
-                              .kaynakEkle(
-                                  widget.docID,
-                                  int.parse(_idController.text),
-                                  _aciklamaController.text);
+                              name: state.name,
+                              surname: state.surname,
+                              email: state.email,
+                              password: state.password,
+                              role: state.role)
+                              .haftalikIcerikEkle(widget.docID , int.parse(_idController.text), _aciklamaController.text);
                           Navigator.pop(context);
                         },
                         child: const Text("Kaydet")),

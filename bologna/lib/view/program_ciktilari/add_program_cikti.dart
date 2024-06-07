@@ -149,6 +149,11 @@ class _AddProgramCiktiState extends State<AddProgramCikti> {
                                     return;
                                   }
 
+                                  if(widget.ciktiIds.length > 12){
+                                    toastInfo(msg: "Çıktı Sayısı 12'den fazla olamaz");
+                                    return;
+                                  }
+
                                   // Since the ID does not exist, add the new program output
                                   context.read<ProgramCiktiInBloc>().state.program_cikti_var = false; // Ensure the state is correct
                                   Idareci(

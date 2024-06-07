@@ -8,6 +8,7 @@ import 'package:bologna/view/ders%20detay/widgets/ogrenim_ciktisi_ekle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class OgrenimCiktilari extends StatefulWidget {
   const OgrenimCiktilari(

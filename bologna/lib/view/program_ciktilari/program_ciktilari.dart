@@ -36,6 +36,7 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
             return const Center(child: Text('Program Bulunamadı'));
           } else {
             var ciktiList = snapshot.data!;
+            ciktiList.sort((a, b) => a.id.compareTo(b.id));  // ID numarasına göre sıralama
 
             return Column(
               children: [
@@ -49,48 +50,65 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: BlocBuilder<SignInBloc, SignInState>(
                             builder: (context, state) {
-                          return state.role == 'idareci' ?  Dismissible(
-                            key: Key(ciktiList[index].docId as String),
-                            background: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.delete_forever_sharp,
-                                  color: Colors.red,
+                              return state.role == 'idareci' ?  Dismissible(
+                                key: Key(ciktiList[index].docId as String),
+                                background: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.delete_forever_sharp,
+                                      color: Colors.red,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      "Not Silinecek",
+                                      style: GoogleFonts.montaga(color: Colors.red),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  "Not Silinecek",
-                                  style: GoogleFonts.montaga(color: Colors.red),
-                                ),
-                              ],
-                            ),
-                            onDismissed: (direction) {
-                              Idareci(
+                                onDismissed: (direction) {
+                                  Idareci(
                                       name: state.name,
                                       surname: state.surname,
                                       email: state.email,
                                       password: state.password,
                                       role: state.role)
-                                  .programCiktisiSil(
+                                      .programCiktisiSil(
                                       state.gorevli_oldugu_fakulte,
                                       ciktiList[index].docId);
-                            },
-                            child: GestureDetector(
-                              onTap: () {
-                                if (state.role == "idareci") {
-                                  _openDetay(
-                                    context,
-                                    state.gorevli_oldugu_fakulte,
-                                    ciktiList[index].id,
-                                    ciktiList[index].cikti_aciklama,
-                                    ciktiList[index].docId,
-                                  );
-                                }
-                              },
-                              child: Container(
+                                },
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (state.role == "idareci") {
+                                      _openDetay(
+                                        context,
+                                        state.gorevli_oldugu_fakulte,
+                                        ciktiList[index].id,
+                                        ciktiList[index].cikti_aciklama,
+                                        ciktiList[index].docId,
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: ListTile(
+                                      title: Text(
+                                        "Program Çıktısı${ciktiList[index].id} ",
+                                        style: GoogleFonts.aBeeZee(),
+                                      ),
+                                      subtitle: Text(
+                                        ciktiList[index].cikti_aciklama,
+                                        style: GoogleFonts.aBeeZee(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ) : Container(
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20),
@@ -105,25 +123,8 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
                                     style: GoogleFonts.aBeeZee(),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ) : Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                "Program Çıktısı${ciktiList[index].id} ",
-                                style: GoogleFonts.aBeeZee(),
-                              ),
-                              subtitle: Text(
-                                ciktiList[index].cikti_aciklama,
-                                style: GoogleFonts.aBeeZee(),
-                              ),
-                            ),
-                          );
-                        }),
+                              );
+                            }),
                       );
                     },
                   ),
@@ -134,7 +135,7 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
         },
       ),
       floatingActionButton:
-          BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+      BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
         return FloatingActionButton.extended(
             elevation: 10,
             backgroundColor: Colors.white,
@@ -163,7 +164,7 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
           borderRadius: BorderRadius.all(Radius.circular(15))),
       builder: (context) => Padding(
         padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: AddProgramCikti(
           fakulte_adi: fakulte_adi,
           ciktiIds: ciktiIds,
@@ -181,7 +182,7 @@ class _ProgramCiktilariScreenState extends State<ProgramCiktilariScreen> {
           borderRadius: BorderRadius.all(Radius.circular(15))),
       builder: (context) => Padding(
           padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: ProgramCiktiDetay(
               fakulte_adi: fakulte_adi,
               cikti_id: cikti_id,
